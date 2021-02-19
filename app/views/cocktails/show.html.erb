@@ -1,6 +1,11 @@
 
   <div class="banner mb-10" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(https://images.unsplash.com/photo-1551024709-8f23befc6f87?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80)">
     <h2><%= @cocktail.name %></h2>
+    <div class="back-to-cocktails">
+    <%=link_to cocktails_path do %>
+      <i class="fas fa-arrow-circle-left back"> Back to the cocktails list</i>
+      <%end%>
+    </div>
   </div>
 
 
@@ -9,18 +14,21 @@
     <h1> DESCRIPTION </h1>
     <br>
     <p> This cocktail is amazing !</p>
-    <p> This cocktail is amazing !</p>
-    <p> This cocktail is amazing !</p>
-    <p> This cocktail is amazing !</p>
+    <p> <%=@cocktail.description%> </p>
+    <%if @cocktail.photo.attached?%>
+      <%=cl_image_tag @cocktail.photo.key, height: 400, width: 500, crop: :fill %>
+    <%else%>
+      <%= image_tag "https://source.unsplash.com/400x300/?cocktail,#{@cocktail.name}" %>
+    <%end%>
 </div>
 <div class="ingredients border border-white mt-3 p-5" >
   <h1> INGREDIENTS </h1>
   <br>
-  <ul class="fa-ul">
+  <ul class="dose-ul">
   <% @cocktail.doses.each do |dose|%>
   <li><i class="fas fa-cocktail"></i><%= " #{dose.ingredient.name}: #{dose.description}"%>
-    <%= link_to dose_path(dose), method: :delete, data: { confirm: "delete it?" } do %>
-      <i class="far fa-trash-alt"></i><em></em></li>
+    <%= link_to dose_path(dose), method: :delete, data: { confirm: "delete it?" }, class: 'dose-delete' do %>
+      <i class="far fa-trash-alt"></i><em> Delete</em></li>
     <% end %>
   <%end%>
   </ul>
